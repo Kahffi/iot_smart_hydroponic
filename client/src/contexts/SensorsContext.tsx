@@ -13,14 +13,14 @@ type TSensorData = {
   value: number;
 };
 
-interface IBundledSensorData {
+export interface IBundledSensorData {
   humidity: TSensorData;
   temperature: TSensorData;
   waterQuality: TSensorData;
   waterHeight: TSensorData;
 }
 
-interface FetchedSensorData {
+export interface FetchedSensorData {
   humidity: number;
   temperature: number;
   waterQuality: number;

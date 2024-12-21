@@ -11,7 +11,7 @@ export default function PumpController({ label, pumpTarget }: Props) {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-between  text-green-500 w-fit h-full">
+      <div className="flex flex-col items-center justify-between  text-green-500 w-fit h-full gap-5">
         <p className="font-semibold text-xl">{label}</p>
         <Icon
           icon={"mingcute:engine-line"}

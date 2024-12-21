@@ -1,18 +1,20 @@
 import { useContext } from "react";
-import SensorsContextProvider, {
-  SensorContext,
-} from "../contexts/SensorsContext";
+import { IBundledSensorData } from "../contexts/SensorReadingContext";
+import SensorReadingContext from "../contexts/SensorReadingContext";
+
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-type ValueLabel = "humidity" | "temperature" | "waterQuality" | "waterHeight";
+export type SensorLabel = keyof IBundledSensorData;
 type Props = {
-  sensorType: ValueLabel;
+  sensorType: SensorLabel;
 };
 
 export default function SensorMeter({ sensorType }: Props) {
-  const { sensorsData } = useContext(SensorContext);
+  const { data: sensorsData } = useContext(SensorReadingContext);
   const sensorValue =
-    sensorsData.length > 0 ? sensorsData[0]![sensorType] : undefined;
+    sensorsData.length > 0
+      ? sensorsData[sensorsData.length - 1]![sensorType]
+      : undefined;
   const sensorConstants = {
     humidity: {
       label: "Humidity",
@@ -37,19 +39,16 @@ export default function SensorMeter({ sensorType }: Props) {
   };
 
   return (
-    <SensorsContextProvider>
-      {/* The */}
-      <div className="flex flex-col p-5 bg-white rounded-lg shadow-md h-48 w-44">
-        <div className="flex flex-col items-center justify-between text-green-500 h-full">
-          <p className="font-semibold text-xl">
-            {sensorConstants[sensorType].label}
-          </p>
-          <Icon icon={sensorConstants[sensorType]?.icon} className="text-5xl" />
-          {sensorValue && (
-            <p>{sensorValue.value + " " + sensorConstants[sensorType]?.unit}</p>
-          )}
-        </div>
+    <div className="flex flex-col p-5 bg-white rounded-lg shadow-md h-48 w-44">
+      <div className="flex flex-col items-center justify-between text-green-500 h-full">
+        <p className="font-semibold text-xl">
+          {sensorConstants[sensorType].label}
+        </p>
+        <Icon icon={sensorConstants[sensorType]?.icon} className="text-5xl" />
+        {sensorValue && (
+          <p>{sensorValue.value + " " + sensorConstants[sensorType]?.unit}</p>
+        )}
       </div>
-    </SensorsContextProvider>
+    </div>
   );
 }

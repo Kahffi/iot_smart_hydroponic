@@ -1,8 +1,8 @@
 import PumpController from "./components/PumpController";
 import SensorMeter from "./components/SensorMeter";
-import SensorsContextProvider from "./contexts/SensorsContext";
 import { Icon } from "@iconify/react";
 import SensorChart from "./components/SensorChart";
+import SensorReadingContextProvider from "./contexts/SensorReadingContextProvider";
 
 function App() {
   // useEffect(() => {
@@ -25,12 +25,12 @@ function App() {
       {/* Sensor Reading */}
       <div className="flex flex-col items-center gap-5">
         <div className="flex flex-wrap justify-center sm:gap-5 gap-3 mt-10 w-full">
-          <SensorsContextProvider>
+          <SensorReadingContextProvider>
             <SensorMeter sensorType="humidity" />
             <SensorMeter sensorType="temperature" />
             <SensorMeter sensorType="waterHeight" />
             <SensorMeter sensorType="waterQuality" />
-          </SensorsContextProvider>
+          </SensorReadingContextProvider>
         </div>
         {/* Pump Controll */}
         <div className="flex flex-1 px-5 py-10 bg-white justify-around rounded-lg shadow-md h-48 max-w-[500px] w-full">
@@ -40,7 +40,9 @@ function App() {
       </div>
       {/* Sensor Reading Graph/History */}
       <div className=" flex flex-wrap w-full">
-        <SensorChart />
+        <SensorReadingContextProvider>
+          <SensorChart />
+        </SensorReadingContextProvider>
       </div>
     </div>
   );

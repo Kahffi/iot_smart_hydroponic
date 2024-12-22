@@ -1,13 +1,35 @@
-import { LineChart, ResponsiveContainer } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import SensorChartContext, {
+  TSensorChartContext,
+} from "../contexts/SensorChartContext";
 import { useContext } from "react";
-import SensorReadingContext from "../contexts/SensorReadingContext";
 
-export default function SensorChart() {
-  const { data: sensorHistory } = useContext(SensorReadingContext);
-  console.log(sensorHistory);
+type Props = {
+  sensorType: keyof TSensorChartContext;
+};
+
+export default function SensorChart({ sensorType }: Props) {
+  const sensorData = useContext(SensorChartContext);
+
   return (
-    <ResponsiveContainer width={"100%"} height={"100%"}>
-      <LineChart width={500} height={300}></LineChart>
-    </ResponsiveContainer>
+    <div className="w-[520px] h-[400px]">
+      <ResponsiveContainer width={"100%"} height={"100%"}>
+        <AreaChart width={500} height={300} data={sensorData[sensorType]}>
+          <XAxis dataKey={"datetime"} />
+          <YAxis />
+          <CartesianGrid />
+          <Tooltip />
+          <Area type={"monotone"} dataKey={"value"} />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import SensorMeter from "./components/SensorMeter";
 import { Icon } from "@iconify/react";
 import SensorChart from "./components/SensorChart";
 import SensorReadingContextProvider from "./contexts/SensorReadingContextProvider";
+import SensorChartContextProvider from "./contexts/SensorChartContextProvider";
 
 function App() {
   // useEffect(() => {
@@ -19,7 +20,9 @@ function App() {
     <div className="min-h-dvh bg-slate-100 p-4 pt-7">
       {/* Header */}
       <div className="text-5xl font-bold text-green-400 w-full flex flex-col items-center gap-1">
-        <Icon icon="teenyicons:plant-outline" className="text-7xl" />
+        <div className="w-[72px] aspect-square">
+          <Icon icon="teenyicons:plant-outline" width={"100%"} />
+        </div>
         <h1 className="">Smart Hydroponic</h1>
       </div>
       {/* Sensor Reading */}
@@ -39,9 +42,13 @@ function App() {
         </div>
       </div>
       {/* Sensor Reading Graph/History */}
-      <div className=" flex flex-wrap w-full">
+      <div className=" flex flex-wrap w-full overflow-auto justify-evenly gap-5">
         <SensorReadingContextProvider>
-          <SensorChart />
+          <SensorChartContextProvider>
+            <SensorChart sensorType="humidity" />
+            <SensorChart sensorType="temperature" />
+            <SensorChart sensorType="waterHeight" />
+          </SensorChartContextProvider>
         </SensorReadingContextProvider>
       </div>
     </div>

@@ -1,8 +1,7 @@
 import { createContext } from "react";
-
 export type SensorHistoryPeriod = "daily" | "weekly" | "monthly";
 
-type TSensorData = {
+export type TSensorData = {
   datetime: Date;
   value: number;
 };

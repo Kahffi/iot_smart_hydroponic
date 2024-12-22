@@ -16,24 +16,31 @@ export function useFetchSensorData(
   historyPeriod: "daily" | "weekly" | "monthly"
 ) {
   const [sensorHistory, setSensorHistory] = useState<IBundledSensorData[]>([]);
-  const [lastFetchedTimestamp, setLastFetchedTimestamp] = useState<
-    number | null
-  >(null);
 
   useEffect(() => {
     const sensorsRef = ref(database, "Sensor/");
 
     //======================================================
-    // Control period of the fethced data, it made sure that only
-    // the latest data are being fetched
+    // Control period of the fethced data
+    const currentDate = new Date();
+    const dailyPeriodInSeconds = Math.floor(
+      //   getting the current day timestamp (unix timestamp) in seconds
+      // the code below will get the first hour of the current date
+      //   VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+      new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate()
+      ).getTime() / 1000
+    );
+    console.log(dailyPeriodInSeconds);
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     const periodInSeconds = {
-      daily: 86400,
-      weekly: 86400 * 7,
-      monthly: 86400 * 30,
+      daily: dailyPeriodInSeconds,
+      weekly: dailyPeriodInSeconds - 7 * 24 * 60 * 60,
+      monthly: dailyPeriodInSeconds - 30 * 24 * 60 * 60,
     }[historyPeriod];
-    const startTime = lastFetchedTimestamp
-      ? lastFetchedTimestamp
-      : Date.now() / 1000 - periodInSeconds;
+    const startTime = periodInSeconds;
 
     const sensorQuery = query(
       sensorsRef,
@@ -67,19 +74,13 @@ export function useFetchSensorData(
         })
       );
 
-      // Update state
-      //   (adding the new data)
       setSensorHistory((prev) => [...prev, ...parsedData]);
-      const latestTimestamp =
-        parsedData[parsedData.length - 1].humidity.datetime.getTime();
-      //   keeping the latest data's timestamp
-      setLastFetchedTimestamp(latestTimestamp);
     });
     return () => {
       // Cleanup listener
       unsubscribe();
     };
-  }, [historyPeriod, lastFetchedTimestamp]);
+  }, [historyPeriod]);
 
   return sensorHistory;
 }

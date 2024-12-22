@@ -12,9 +12,9 @@ from contextlib import asynccontextmanager
 import time
 
 
-cred = credentials.Certificate("iot-hydrophonic-firebase-adminsdk-v0ziu-5db8b905c0.json")
+cred = credentials.Certificate("iot-smarthydroponic-firebase-adminsdk-zqnhu-f905df0a48.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://iot-hydrophonic-default-rtdb.asia-southeast1.firebasedatabase.app/'
+    'databaseURL': 'https://iot-smarthydroponic-default-rtdb.asia-southeast1.firebasedatabase.app/'
 })
 
 shutdown_event = Event()
@@ -25,7 +25,6 @@ app = FastAPI()
 
 # simulate microcontrollers
 async def microController():
-    global dhtSensorRef
     try:
         while not shutdown_event.is_set():
             sensorsDataRef.push(
@@ -34,7 +33,7 @@ async def microController():
                  'waterHeight' : str(random.random()), 
                  'waterQuality' : str(random.random()), 
                  'timestamp': time.time()})
-            await sleep(1)  # Use asyncio sleep here
+            await sleep(3)  # Use asyncio sleep here
     except CancelledError:
         print("Microcontroller simulation cancelled")
 

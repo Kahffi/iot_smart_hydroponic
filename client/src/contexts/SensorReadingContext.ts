@@ -1,5 +1,5 @@
 import { createContext } from "react";
-export type SensorHistoryPeriod = "daily" | "weekly" | "monthly";
+import { HistoryPeriod } from "../hooks/useFetchSensorsData";
 
 export type TSensorData = {
   datetime: Date;
@@ -23,13 +23,13 @@ export interface FetchedSensorData {
 
 type TSensorHistoryContext = {
   data: IBundledSensorData[];
-  period: SensorHistoryPeriod;
-  setHistoryPeriod: React.Dispatch<React.SetStateAction<SensorHistoryPeriod>>;
+  period: HistoryPeriod;
+  setHistoryPeriod: React.Dispatch<React.SetStateAction<HistoryPeriod>>;
 };
 
 const SensorReadingContext = createContext<TSensorHistoryContext>({
   data: [],
-  period: "weekly",
+  period: "daily",
   setHistoryPeriod: () => {},
 });
 

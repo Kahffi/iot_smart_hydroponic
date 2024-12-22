@@ -1,8 +1,10 @@
 import { ReactNode, useState } from "react";
-import { SensorHistoryPeriod } from "./SensorReadingContext";
 import SensorReadingContext from "./SensorReadingContext";
 
-import { useFetchSensorData } from "../hooks/useFetchSensorsData";
+import {
+  HistoryPeriod,
+  useFetchSensorData,
+} from "../hooks/useFetchSensorsData";
 
 export default function SensorReadingContextProvider({
   children,
@@ -10,11 +12,11 @@ export default function SensorReadingContextProvider({
   children: ReactNode;
 }) {
   const [historyPeriod, setHistoryPeriod] =
-    useState<SensorHistoryPeriod>("daily");
+    useState<HistoryPeriod>("_10minutes");
   const sensorData = useFetchSensorData(historyPeriod);
-  console.log(sensorData);
   //   get
 
+  console.log(sensorData);
   return (
     <SensorReadingContext.Provider
       value={{

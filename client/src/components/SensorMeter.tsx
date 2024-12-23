@@ -11,10 +11,7 @@ type Props = {
 
 export default function SensorMeter({ sensorType }: Props) {
   const { data: sensorsData } = useContext(SensorReadingContext);
-  const sensorValue =
-    sensorsData.length > 0
-      ? sensorsData[sensorsData.length - 1]![sensorType]
-      : undefined;
+  const sensorValue = sensorsData ? sensorsData[sensorType] : null;
   const sensorConstants = {
     humidity: {
       label: "Humidity",

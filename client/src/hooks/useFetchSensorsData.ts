@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { database } from "../firebase";
 import {
   IBundledSensorData,
@@ -8,47 +8,23 @@ import {
   ref,
   query,
   orderByChild,
-  startAfter,
   onValue,
+  limitToLast,
 } from "firebase/database";
 
 export type HistoryPeriod = "daily" | "_3hour" | "_1hour" | "_10minutes";
 
-export function useFetchSensorData(historyPeriod: HistoryPeriod) {
-  const [sensorHistory, setSensorHistory] = useState<IBundledSensorData[]>([]);
-  const [lastFetchTime, setLastFetchTime] = useState<number | null>(null);
-
-  const getPeriodInSeconds = useCallback(() => {
-    const currentDate = new Date();
-    const dailyPeriodInSeconds = Math.floor(
-      //   getting the current day timestamp (unix timestamp) in seconds
-      // the code below will get the first hour of the current date
-      //   VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-      new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth(),
-        currentDate.getDate()
-      ).getTime() / 1000
-    );
-
-    return {
-      daily: dailyPeriodInSeconds,
-      _3hour: Math.round(new Date().getTime() / 1000 - 3 * 3600),
-      _1hour: Math.round(new Date().getTime() / 1000 - 1 * 3600),
-      _10minutes: Math.round(new Date().getTime() / 1000 - 1 * 60),
-    }[historyPeriod];
-  }, [historyPeriod]);
+export function useFetchSensorData() {
+  const [latestSensorRead, setLatestSensorRead] =
+    useState<IBundledSensorData | null>(null);
 
   useEffect(() => {
     const sensorsRef = ref(database, "sensorsData/");
-    const startTime = lastFetchTime
-      ? getPeriodInSeconds()
-      : getPeriodInSeconds();
 
     const sensorQuery = query(
       sensorsRef,
       orderByChild("timestamp"),
-      startAfter(startTime)
+      limitToLast(1)
     );
     //======================================================
 
@@ -76,16 +52,13 @@ export function useFetchSensorData(historyPeriod: HistoryPeriod) {
           },
         })
       );
-      setSensorHistory([...parsedData]);
-      setLastFetchTime(
-        parsedData[parsedData.length - 1].humidity.datetime.getTime()
-      );
+      setLatestSensorRead(parsedData.pop() || null);
     });
     return () => {
       // Cleanup listener
       unsubscribe();
     };
-  }, [historyPeriod, getPeriodInSeconds, lastFetchTime]);
+  }, []);
 
-  return sensorHistory;
+  return latestSensorRead;
 }

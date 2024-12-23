@@ -48,6 +48,7 @@ function App() {
             <SensorChart sensorType="humidity" />
             <SensorChart sensorType="temperature" />
             <SensorChart sensorType="waterHeight" />
+            <SensorChart sensorType="waterQuality" />
           </SensorChartContextProvider>
         </SensorReadingContextProvider>
       </div>

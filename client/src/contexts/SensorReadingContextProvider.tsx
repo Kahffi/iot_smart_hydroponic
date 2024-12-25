@@ -1,14 +1,14 @@
 import { ReactNode } from "react";
 import SensorReadingContext from "./SensorReadingContext";
 
-import { useFetchSensorData } from "../hooks/useFetchSensorsData";
+import { useFetchLatestSensorData } from "../hooks/useFetchLatestSensorsData";
 
 export default function SensorReadingContextProvider({
   children,
 }: {
   children: ReactNode;
 }) {
-  const sensorData = useFetchSensorData();
+  const sensorData = useFetchLatestSensorData();
   //   get
 
   return (

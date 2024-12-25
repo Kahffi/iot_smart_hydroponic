@@ -14,7 +14,7 @@ import {
 
 export type HistoryPeriod = "daily" | "_3hour" | "_1hour" | "_10minutes";
 
-export function useFetchSensorData() {
+export function useFetchLatestSensorData() {
   const [latestSensorRead, setLatestSensorRead] =
     useState<IBundledSensorData | null>(null);
 

@@ -19,7 +19,7 @@ export function useFetchLatestSensorData() {
     useState<IBundledSensorData | null>(null);
 
   useEffect(() => {
-    const sensorsRef = ref(database, "sensorsData/");
+    const sensorsRef = ref(database, "Sensor/");
 
     const sensorQuery = query(
       sensorsRef,

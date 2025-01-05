@@ -18,7 +18,7 @@ export default function SensorChartContextProvider({
     waterQuality: [],
   });
 
-  const [graphType, setGraphType] = useState<GraphType>("rt");
+  const [graphType] = useState<GraphType>("rt");
 
   // listening to latestSensorReading and appending to chart data and if
   // graph type is realtime

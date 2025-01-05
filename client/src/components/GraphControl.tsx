@@ -1,6 +1,6 @@
 import DropDown from "./DropDown";
 export default function GraphControl() {
-  function onDropdownUpdate(data: string) {}
+  function onDropdownUpdate() {}
   return (
     <div>
       <p>Graph Period</p>

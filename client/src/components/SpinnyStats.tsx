@@ -18,19 +18,19 @@ export default function SpinnyStats({
       status: "Sedih",
       image: sadPlantImg,
       description:
-        "Aku sedih ketika kelembapan udara di sekitar ku rendah, suhu udara tinggi, dan pupuk yang diberikan sedikit",
+        "Aku sedih ketika udara di sekitar ku kering, suhu udara panas, dan pupuk yang diberikan sedikit",
     },
     {
       status: "Normal",
       image: normalPlantImg,
       description:
-        "Aku sedih ketika kelembapan udara di sekitar ku rendah, suhu udara tinggi, dan pupuk yang diberikan sedikit",
+        "Aku biasa saja saat kelembapan udara di sekitar tidak terlalu kering dan tidak terlalu lembab, suhu udara pun juga begitu, dan pupuk yang diberikan cukup",
     },
     {
       status: "Senang",
       image: happyPlantImg,
       description:
-        "Aku sangat senang ketika kelembapan udara di sekitar ku tinggi, suhu udara rendah, dan pupuk yang diberikan berlimpah",
+        "Aku sangat senang ketika udara di sekitar ku lembab, suhu udara sejuk, dan pupuk yang diberikan berlimpah",
     },
   ];
 

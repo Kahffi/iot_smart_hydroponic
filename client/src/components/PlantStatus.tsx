@@ -25,6 +25,7 @@ export default function PlantStatus({
       data?.humidity.value,
       data?.waterQuality.value,
     ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (
